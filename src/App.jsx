@@ -34,7 +34,8 @@ function App() {
             <FaUser />
             Login
           </Link>
-          <Link to="/reserva">Reservar</Link>
+
+          {/*<Link to="/reserva">Reservar</Link>*/}
 
 
         </div>

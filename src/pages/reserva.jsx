@@ -1,6 +1,6 @@
 import React from "react";
 
-
+{/*PAgina en desarrollo*/}
 export default function Reserva(){
 
     return(
