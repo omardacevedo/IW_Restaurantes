@@ -4,6 +4,7 @@ import RestaurantCard from "../components/RestaurantCard";
 import LocationSection from "../components/LocationSection";
 import GiftCard from "../components/GiftCard";
 import Modal from "../components/Modal";
+import Brands from "../components/Brands";
 
 export default function Home(){
   const [restauranteSeleccionado, setRestauranteSeleccionado]= useState(null);
@@ -30,6 +31,8 @@ export default function Home(){
       onClose={()=> setRestauranteSeleccionado(null)}
       />
       <GiftCard/>
+
+      <Brands/>
     </div>
     )
 
