@@ -1,18 +1,27 @@
-import React, { useState } from "react";
-import Home from "./pages/home";
+import React, { useEffect, useState } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "./firebase/firebase";
+
+import Home from "./pages/Home";
 import Search from "./pages/Search";
 import NewRestaurant from "./pages/NewRestaurant";
 import Login from "./pages/Login";
 import { restaurantsData as initialData } from "./data/restaurants";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { FaUtensils, FaUser } from "react-icons/fa";
-import GiftCard from "./components/GiftCard"; // sección promocional
 import GiftCards from "./pages/GiftCards";    // página destino
-import GiftCardItem from "./components/GiftCardItem";
 
 
 function App() {
   const [restaurants, setRestaurants] = useState(initialData);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  },[]);
 
   return (
     <Router>
@@ -27,17 +36,26 @@ function App() {
           <Link to="/">Inicio</Link>
           <Link to="/buscar">Buscar</Link>
           <Link to="/nuevo">Nuevo Restaurante</Link>
-          <Link
-            to="/login"
-            className="flex items-center gap-2 bg-white text-gray-800 px-3 py-1 rounded hover:bg-gray-200 transition"
-          >
-            <FaUser />
-            Login
-          </Link>
 
-          {/*<Link to="/reserva">Reservar</Link>*/}
-
-
+          {user ? (
+            <div className="flex items-center gap-4">
+              <span className="font-medium text-sm">👋 {user.displayName || user.email}</span>
+              <button
+            onClick={() => signOut(auth)}
+            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+            >
+              Cerrar sesión
+              </button>
+              </div>
+              ) : (
+              <Link
+              to="/login"
+              className="flex items-center gap-2 bg-white text-gray-800 px-3 py-1 rounded hover:bg-gray-200 transition"
+              >
+                <FaUser />
+                Login
+                </Link>
+              )}
         </div>
       </nav>
 
